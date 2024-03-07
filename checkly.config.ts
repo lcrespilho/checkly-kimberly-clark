@@ -1,5 +1,5 @@
 import { defineConfig } from 'checkly'
-import { Frequency } from 'checkly/dist/constructs'
+import { Frequency } from 'checkly/constructs'
 
 /**
  * See https://www.checklyhq.com/docs/cli/project-structure/
@@ -12,9 +12,14 @@ const config = defineConfig({
     frequency: Frequency.EVERY_24H,
     locations: ['us-east-1', 'eu-west-1', 'sa-east-1'],
     runtimeId: '2023.09',
-    checkMatch: '**/*.check.ts',
     browserChecks: {
       testMatch: '**/*.spec.ts',
+    },
+    checkMatch: '**/*.check.ts',
+    playwrightConfig: {
+      use: {
+        viewport: { width: 1440, height: 1080 },
+      },
     },
   },
   cli: {
