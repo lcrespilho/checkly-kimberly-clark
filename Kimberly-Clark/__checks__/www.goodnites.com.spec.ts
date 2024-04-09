@@ -1,16 +1,26 @@
+import { test, expect } from '@playwright/test'
+import { flatRequestUrl, tagsToTest } from '../../utils'
 
-    import { test, expect } from '@playwright/test'
-    test.setTimeout(119000)
+test.setTimeout(119000)
+
+test('https://www.Goodnites.com', async ({ page }) => {
+  const requests: string[] = []
+  page.on('request', request => requests.push(flatRequestUrl(request)))
+
+  await page.goto('https://www.Goodnites.com')
+  await page.evaluate(() => scrollBy({ behavior: 'smooth', top: 1000 }))
+  await page.waitForTimeout(7000)
   
-    test('https://www.goodnites.com/', async ({ page }) => {
-
-      const requests: string[] = []
-      page.on('request', (request) => requests.push(request.url() + request.postData()))
-
-      await page.goto('https://www.goodnites.com/')
-      await page.evaluate(() => scrollBy({ behavior: 'smooth', top: 1000 }))
-      await page.waitForTimeout(7000)
-
-      const re = /google.*collect|g.doubleclick.net|analytics.tiktok.com|ct.pinterest.com\/v3\/\?tid=/
-      requests.forEach((request) => expect.soft(request).not.toMatch(re))
-    })
+  test.step('🕵️ TAGS CHECK: TAGS SHOULD NOT FIRE BEFORE CONSENTED', () => {
+    tagsToTest.forEach(({ name, re }) =>
+      test.step(name, () =>
+        expect
+          .soft(
+            requests.every(request => !re.test(request)),
+            `${name} tag fired before consented`
+          )
+          .toBeTruthy()
+      )
+    )
+  })
+})

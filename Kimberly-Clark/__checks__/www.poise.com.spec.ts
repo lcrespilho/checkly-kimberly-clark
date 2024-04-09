@@ -3,11 +3,11 @@ import { flatRequestUrl, tagsToTest } from '../../utils'
 
 test.setTimeout(119000)
 
-test('https://www.kimberly-clark.com', async ({ page }) => {
+test('https://www.poise.com/', async ({ page }) => {
   const requests: string[] = []
   page.on('request', request => requests.push(flatRequestUrl(request)))
 
-  await page.goto('https://www.kimberly-clark.com')
+  await page.goto('https://www.poise.com/')
   await page.evaluate(() => scrollBy({ behavior: 'smooth', top: 1000 }))
   await page.waitForTimeout(7000)
   
