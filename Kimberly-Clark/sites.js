@@ -1,5 +1,5 @@
 module.exports = [
-  'https://www.huggies.com',
+  'https://www.huggies.com/en-us/',
   'https://www.Goodnites.com',
   'https://www.Pull-ups.com',
   'https://www.cottonelle.com',
